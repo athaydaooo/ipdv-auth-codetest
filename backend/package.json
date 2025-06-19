@@ -5,8 +5,8 @@
   "author": "Lucas Athayde <athaydaooo@gmail.com>",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/shared/server.ts",
-    "start": "ts-node -r tsconfig-paths/register src/shared/server.ts",
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
+    "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

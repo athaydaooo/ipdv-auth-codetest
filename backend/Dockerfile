@@ -1,5 +1,6 @@
-# Estágio de construção (build)
-FROM node:20 as build
+# Dockerfile para o backend usando Node.js e pnpm
+# Base image com Node.js 20
+FROM node:20
 
 # Instale o pnpm globalmente
 RUN npm install -g pnpm
@@ -19,21 +20,7 @@ COPY . .
 # Constrói o projeto para produção
 RUN pnpm run build
 
-# Estágio de produção
-FROM node:20-alpine
-
-# Instale o pnpm globalmente
-RUN npm install -g pnpm
-
-# Define o diretório de trabalho
-WORKDIR /app
-
-# Copia apenas os arquivos necessários para produção
-COPY --from=build /app/package.json /app/pnpm-lock.yaml ./
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/node_modules ./node_modules
-
-# Expõe a porta 3000
+# Expõe a porta 3000W
 EXPOSE 3000
 
 # Comando para rodar o servidor
