@@ -42,14 +42,14 @@ API para o sistema de autenticação e controle de acesso modularizado.
 
 ```mermaid
 erDiagram
-    USER ||--o{ SESSION : "possui"
-    USER ||--|{ USER_ROLE : "associado"
-    ROLE ||--|{ USER_ROLE : "atribuído"
-    ROLE ||--|{ ROLE_MODULE : "acessa"
-    MODULE ||--|{ ROLE_MODULE : "disponibilizado"
-    
+    USER ||--o{ SESSION : possui
+    USER ||--|{ USER_ROLE : associado
+    ROLE ||--|{ USER_ROLE : atribuído
+    ROLE ||--|{ ROLE_MODULE : acessa
+    MODULE ||--|{ ROLE_MODULE : disponibilizado
+
     USER {
-        string id PK "UUID"
+        string id
         string name
         string email
         string password
@@ -57,43 +57,41 @@ erDiagram
         datetime createdAt
         datetime updatedAt
     }
-    
+
     ROLE {
-        string id PK "UUID"
+        string id
         string name
         string description
         datetime createdAt
         datetime updatedAt
     }
-    
+
     MODULE {
-        string id PK "UUID"
+        string id
         string name
         string description
         datetime createdAt
         datetime updatedAt
     }
-    
+
     USER_ROLE {
-        string userId FK
-        string roleId FK
+        string userId
+        string roleId
         datetime assignedAt
-        @@id([userId, roleId])
     }
-    
+
     ROLE_MODULE {
-        string roleId FK
-        string moduleId FK
+        string roleId
+        string moduleId
         datetime assignedAt
-        @@id([roleId, moduleId])
     }
-    
+
     SESSION {
-        string id PK "UUID"
+        string id
         string token
         datetime expiresAt
         boolean isRevoked
-        string userId FK
+        string userId
         datetime createdAt
         datetime updatedAt
     }
