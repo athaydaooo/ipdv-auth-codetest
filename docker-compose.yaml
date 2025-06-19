@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: ipdv_postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: toor
+      POSTGRES_DB: ipdv_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ipdv_network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ipdv_backend
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - ipdv_network
+    restart: unless-stopped
+
+networks:
+  ipdv_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "removeComments": true,
+    "target": "ES2020",
+    "sourceMap": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@helpers/*": ["./src/helpers/*"],
+      "@config/*": ["src/configs/*"],
+      "@util/*": ["src/utils/*"],
+      "@errors/*": ["src/errors/*"],
+    },
+    "resolveJsonModule": true
+  }
+}
