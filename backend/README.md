@@ -37,3 +37,149 @@ API para o sistema de autenticação e controle de acesso modularizado.
    ```bash
    pnpm install
    ```
+
+## 📊 Diagrama do Banco de Dados
+
+```mermaid
+erDiagram
+    USER ||--o{ SESSION : possui
+    USER ||--|{ USER_ROLE : associado
+    ROLE ||--|{ USER_ROLE : atribuído
+    ROLE ||--|{ ROLE_MODULE : acessa
+    MODULE ||--|{ ROLE_MODULE : disponibilizado
+
+    USER {
+        string id
+        string name
+        string email
+        string password
+        boolean isActive
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    ROLE {
+        string id
+        string name
+        string description
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    MODULE {
+        string id
+        string name
+        string description
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    USER_ROLE {
+        string userId
+        string roleId
+        datetime assignedAt
+    }
+
+    ROLE_MODULE {
+        string roleId
+        string moduleId
+        datetime assignedAt
+    }
+
+    SESSION {
+        string id
+        string token
+        datetime expiresAt
+        boolean isRevoked
+        string userId
+        datetime createdAt
+        datetime updatedAt
+    }
+````
+
+## 🗃️ Modelagem do Banco de Dados - Decisões Estruturais
+
+### 1. Relacionamentos N\:N (Muitos-para-Muitos)
+
+**Tabelas Associativas:**
+
+* **UserRole**: Gerencia a relação usuário-cargo
+* **RoleModule**: Controla acesso cargo-módulo
+
+**Vantagens:**
+
+* Máxima flexibilidade na atribuição de permissões
+* Histórico de associação (timestamp `assignedAt`)
+* Consultas otimizadas com índices compostos (`@@id`)
+
+### 2. Estrutura de Módulos
+
+**Model `Module`:**
+
+* Representa funcionalidades do sistema
+* Relacionamento indireto com usuários via cargos
+* Permite controle granular de acesso
+
+**Benefícios:**
+
+* Hierarquia clara de permissões
+* Fácil expansão para novos módulos
+* Desacoplamento entre usuários e funcionalidades
+
+### 3. Controle de Sessões Avançado
+
+**Model `Session`:**
+
+* Token JWT rastreável
+* Controle de revogação (`isRevoked`)
+* Validade temporária (`expiresAt`)
+
+**Segurança:**
+
+* Invalidação centralizada de tokens
+* Prevenção contra replay attacks
+* Auditoria de acesso
+
+### 4. Boas Práticas Gerais
+
+* **UUID como chave primária**
+
+  * Mais seguro que sequenciais
+  * Não expõe volume de dados
+
+* **Timestamps automáticos**
+
+  * `createdAt` para registro temporal
+  * `updatedAt` para rastreamento de mudanças
+
+* **Soft Delete via `isActive`**
+
+  * Preserva integridade referencial
+  * Permite reativação de contas
+
+## ⚡ Pontos Fortes da Estrutura
+
+### Gestão Granular de Acessos
+
+* Usuários → Cargos → Módulos (RBAC)
+* Permissões dinâmicas sem alterar código
+
+### Extensibilidade
+
+* Adição de novos módulos sem migrações complexas
+* Escalável para sistemas com +100 funcionalidades
+
+### Performance
+
+* Índices otimizados para consultas frequentes
+* Relacionamentos pré-carregáveis com Prisma
+
+### Manutenibilidade
+
+* Modelagem auto-documentada
+* Separação clara de responsabilidades
+
+### Segurança
+
+* Controle de sessão ativo
+* Auditoria completa de acessos

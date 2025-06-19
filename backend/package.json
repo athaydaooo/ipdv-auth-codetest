@@ -12,6 +12,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
+  "prisma": {
+  "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "6.10.1",
     "axios": "^1.2.2",
