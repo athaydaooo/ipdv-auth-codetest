@@ -120,8 +120,10 @@ erDiagram
 
     SESSION {
         string id
-        string token
-        datetime expiresAt
+        string accessToken
+        string refreshToken
+        datetime accessTokenExpiresAt
+        datetime refreshTokenExpiresAt
         boolean isRevoked
         string userId
         datetime createdAt
