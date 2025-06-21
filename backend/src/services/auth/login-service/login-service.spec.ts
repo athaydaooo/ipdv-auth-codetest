@@ -45,15 +45,15 @@ describe('LoginService', () => {
         };
 
         userRepository.getUserByEmail.mockResolvedValue(mockUser);
+
         // Simulate password decryption and comparison
-        (loginService as any).decryptPassword = jest.fn().mockReturnValue(inputPassword);
-        (loginService as any).comparePasswords = jest.fn().mockReturnValue(true);
+        crypto.decrypt = jest.fn().mockReturnValue(inputPassword);
+
         sessionRepository.createSession.mockResolvedValue(session);
         const result = await loginService.execute(mockUser.email, inputPassword);
 
         expect(userRepository.getUserByEmail).toHaveBeenCalledWith(mockUser.email);
-        expect((loginService as any).decryptPassword).toHaveBeenCalledWith(mockUser.password);
-        expect((loginService as any).comparePasswords).toHaveBeenCalledWith(inputPassword, inputPassword);
+        expect(crypto.decrypt).toHaveBeenCalledWith(mockUser.password);
         const { id, ...mockUserWithoutId } = mockUser;
         expect(sessionRepository.createSession).toHaveBeenCalledWith(mockUserWithoutId);
         expect(result).toEqual({
