@@ -59,14 +59,16 @@ model RoleModule {
 }
 
 model Session {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  user      User     @relation(fields: [userId], references: [id])
-  token     String   @unique
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  isRevoked Boolean  @default(false)
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @db.Uuid
+  user         User     @relation(fields: [userId], references: [id])
+  accessToken  String   @unique  // Token de acesso (JWT, vida curta)
+  refreshToken String   @unique  // Token de atualização (vida longa)
+  accessTokenExpiresAt  DateTime  // Expiração do access token (1h)
+  refreshTokenExpiresAt DateTime  // Expiração do refresh token (7 dias)
+  isRevoked    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  @@index([userId, token])
+  @@index([userId, accessToken, refreshToken])
 }

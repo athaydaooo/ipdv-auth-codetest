@@ -37,7 +37,39 @@ API para o sistema de autenticação e controle de acesso modularizado.
    ```bash
    pnpm install
    ```
+## 🔄 Ciclo de Vida
 
+### Scripts Principais
+
+- **`pnpm dev`**  
+    Inicia o servidor em modo de desenvolvimento com recarregamento automático. Ideal para desenvolvimento local, pois reflete alterações no código em tempo real.
+
+- **`pnpm build`**  
+    Compila o código TypeScript para JavaScript na pasta `dist/`. Deve ser executado antes de rodar em produção.
+
+- **`pnpm start`**  
+    Executa a aplicação já compilada (pasta `dist/`). Usado para ambientes de produção.
+
+- **`pnpm prisma db seed`**  
+    Popula o banco de dados com dados iniciais (seed), como usuários, cargos e módulos padrão. Execute após a criação/migração do banco.
+
+### Exemplo de Uso
+
+```bash
+# Desenvolvimento
+pnpm dev
+
+# Build para produção
+pnpm build
+
+# Rodar em produção
+pnpm start
+
+# Popular banco de dados
+pnpm prisma db seed
+```
+
+> Consulte o arquivo `package.json` para ver todos os scripts disponíveis.
 ## 📊 Diagrama do Banco de Dados
 
 ```mermaid
@@ -88,8 +120,10 @@ erDiagram
 
     SESSION {
         string id
-        string token
-        datetime expiresAt
+        string accessToken
+        string refreshToken
+        datetime accessTokenExpiresAt
+        datetime refreshTokenExpiresAt
         boolean isRevoked
         string userId
         datetime createdAt

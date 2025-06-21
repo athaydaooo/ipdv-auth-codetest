@@ -17,6 +17,9 @@ RUN pnpm install --frozen-lockfile
 # Copia o restante dos arquivos do projeto
 COPY . .
 
+# Gera os arquivos os tipos do banco de dados com Prisma
+RUN pnpm prisma generate
+
 # Constrói o projeto para produção
 RUN pnpm run build
 
