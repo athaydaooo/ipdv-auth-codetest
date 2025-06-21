@@ -12,4 +12,11 @@
  * @header {string} Authorization - Token JWT no formato Bearer.
  * @returns {void} 200 - Logout realizado com sucesso.
  * @returns {Object} 401 - Token inválido ou ausente.
+ *
+ * @route POST /api/auth/refresh
+ * @description Gera um novo token de acesso usando um refresh token válido.
+ * @param {Object} req.body - Dados para renovação do token.
+ * @param {string} req.body.refreshToken - Refresh token válido.
+ * @returns {Object} 200 - Retorna novo token de acesso e data de expiração.
+ * @returns {Object} 401 - Refresh token inválido ou expirado.
  */
