@@ -18,9 +18,15 @@
     "skipLibCheck": true,
     "paths": {
       "@helpers/*": ["./src/helpers/*"],
-      "@config/*": ["src/configs/*"],
-      "@util/*": ["src/utils/*"],
-      "@errors/*": ["src/errors/*"],
+      "@configs/*": ["src/configs/*"],
+      "@utils/*": ["src/utils/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@repositories/*": ["src/repositories/*"],
+      "@routes/*": ["src/routes/*"],
+      "@schemas/*": ["src/schemas/*"],
+      "@services/*": ["src/services/*"],
+      "@types/*": ["src/types/*"],
     },
     "resolveJsonModule": true
   }
