@@ -1,11 +1,11 @@
-// src/utils/jwt.ts
-import configs from '@config/index';
+import configs from '@configs/index';
 import jwt from 'jsonwebtoken';
 import { JwtPayload } from 'src/types/auth/jwt-payload';
 
 class JwtAuth {
     generateToken = (
         payload: JwtPayload,
+        expiresIn: string = '1h'
         ): string => {
         return jwt.sign(
             {
@@ -13,7 +13,7 @@ class JwtAuth {
             iss: 'ipdv-auth-codetest',
             },
             configs.jwtSecret as string,
-            { expiresIn: configs.jwtExpiration || '1h' } as jwt.SignOptions
+            { expiresIn: expiresIn || configs.jwtExpiration } as jwt.SignOptions
         );
     };
 
