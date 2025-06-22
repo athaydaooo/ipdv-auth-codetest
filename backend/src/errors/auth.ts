@@ -25,4 +25,9 @@ export const authAlreadyRevokedSession = new AppError(
   400,
 );
 
+export const authInvalidCredentials = new AppError(
+  "Invalid email or password",
+  400,
+);
+
 
