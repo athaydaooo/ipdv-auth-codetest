@@ -1,4 +1,4 @@
-import { authInvalidCredentials } from "@errors/auth";
+import { authInvalidCredentials, authUserDeactivated } from "@errors/auth";
 import { Session, User } from "@prisma/client";
 import { SessionRepository } from "@repositories/session-repository";
 import { UserRepository } from "@repositories/user-repository";
@@ -26,6 +26,8 @@ export class LoginService {
     async execute(email: string, password: string): Promise<LoginServiceResponse> {
         const user = await this.userRepository.getUserByEmail(email);
         if (!user) { throw authInvalidCredentials; }
+        
+        if(!user.isActive) throw authUserDeactivated;
 
         const decryptedPassword = crypto.decrypt({ data: user.password });
         if (password !== decryptedPassword) 

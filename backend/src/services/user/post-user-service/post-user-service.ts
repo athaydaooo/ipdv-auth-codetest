@@ -1,6 +1,5 @@
 import { userAlreadyExists } from "@errors/user";
 import { Role, User } from "@prisma/client";
-import { RoleRepository } from "@repositories/role-repository";
 import { UserRepository } from "@repositories/user-repository";
 import { crypto } from "@utils/crypto";
 
@@ -18,11 +17,9 @@ interface PostUserServiceResponse {
 
 export class PostUserService {
     private userRepository: UserRepository;
-    private roleRepository: RoleRepository;
 
-    constructor(userRepository: UserRepository, roleRepository: RoleRepository) {
+    constructor(userRepository: UserRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     /**
