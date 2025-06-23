@@ -20,7 +20,12 @@ export class SessionRepository {
     }
 
     async createSession(data: Omit<Session, 'id'>): Promise<Session> {
-        return await prisma.session.create({ data });
+        return await prisma.session.create({
+            data: {
+                ...data,
+                id: undefined 
+            }
+        });
     }
 
     async updateSession(id: string, data: Partial<Session>): Promise<Session> {
