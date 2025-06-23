@@ -1,17 +1,21 @@
+import { authAlreadyRevokedSession, authSessionNotFound } from "@errors/auth";
 import { Session } from "@prisma/client";
 import { SessionRepository } from "@repositories/session-repository";
-import { authAlreadyRevokedSession, authSessionNotFound } from "src/errors/auth";
+import { UserRepository } from "@repositories/user-repository";
 import { RefreshTokenService } from "./refresh-token-service";
 
 jest.mock('@repositories/session-repository');
+jest.mock('@repositories/user-repository');
 
 describe('RefreshTokenService', () => {
     let refreshTokenService: RefreshTokenService;
     let sessionRepository: jest.Mocked<SessionRepository>;
+    let userRepository: jest.Mocked<UserRepository>;
 
     beforeEach(() => {
         sessionRepository = new SessionRepository() as jest.Mocked<SessionRepository>;
-        refreshTokenService = new RefreshTokenService();
+        userRepository = new UserRepository() as jest.Mocked<UserRepository>;
+        refreshTokenService = new RefreshTokenService(sessionRepository,userRepository);
     });
 
     it('should refresh token successfully if session is valid', async () => {

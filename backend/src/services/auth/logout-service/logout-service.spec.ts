@@ -1,6 +1,6 @@
+import { authAlreadyRevokedSession, authSessionNotFound } from "@errors/auth";
 import { Session } from "@prisma/client";
 import { SessionRepository } from "@repositories/session-repository";
-import { authAlreadyRevokedSession, authSessionNotFound } from "src/errors/auth";
 import { LogoutService } from "./logout-service";
 
 jest.mock('@repositories/session-repository');
@@ -11,7 +11,7 @@ describe('LogoutService', () => {
 
     beforeEach(() => {
         sessionRepository = new SessionRepository() as jest.Mocked<SessionRepository>;
-        logoutService = new LogoutService();
+        logoutService = new LogoutService(sessionRepository);
     });
 
     it('should logout successfully and revoke session', async () => {
@@ -31,7 +31,7 @@ describe('LogoutService', () => {
 
         const result = await logoutService.execute('mockAccessToken');
 
-        expect(sessionRepository.getSessionByAccessToken).toHaveBeenCalledWith('mockAccessToken');
+        expect(sessionRepository.getSessionByAccessToken).toHaveBeenCalledWith(session.accessToken);
         expect(sessionRepository.revokeSession).toHaveBeenCalledWith(session.accessToken);
         expect(result).toBeUndefined();
     });
