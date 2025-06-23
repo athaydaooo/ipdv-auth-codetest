@@ -21,7 +21,7 @@ export class RoleRepository {
     }
 
     async updateRole(id: string, data: Partial<Role>): Promise<Role> {
-        return prisma.role.update({ where: { id }, data });
+        return prisma.role.update({ where: { id }, data: {...data, updatedAt: new Date()} });
     }
 
     async deleteRole(id: string): Promise<Role> {

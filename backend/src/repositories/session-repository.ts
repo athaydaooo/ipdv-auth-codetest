@@ -29,7 +29,7 @@ export class SessionRepository {
     }
 
     async updateSession(id: string, data: Partial<Session>): Promise<Session> {
-        return await prisma.session.update({ where: { id }, data });
+        return await prisma.session.update({ where: { id }, data: {...data, updatedAt: new Date()} });
     }
 
     async deleteSession(id: string): Promise<Session> {

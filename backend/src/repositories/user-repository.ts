@@ -21,7 +21,7 @@ export class UserRepository {
     }
 
     async updateUser(id: string, data: Partial<User>): Promise<User> {
-        return prisma.user.update({ where: { id }, data });
+        return prisma.user.update({ where: { id }, data: {...data, updatedAt: new Date()} });
     }
 
     async deleteUser(id: string): Promise<User> {
@@ -30,6 +30,48 @@ export class UserRepository {
 
     async getUserByEmail(email: string): Promise<User | null> {
         return prisma.user.findUnique({ where: { email } });
+    }
+
+    async getUsers(filters: {
+        isActive?: boolean;
+        roleId?: string[];
+        name?: string;
+        email?: string;
+    }): Promise<User[]> {
+        const { isActive, roleId, name, email } = filters;
+
+        if (
+            isActive === undefined &&
+            !roleId &&
+            !name &&
+            !email
+        ) {
+          throw new Error('At least one filter must be provided');
+        }
+        return prisma.user.findMany({
+            where: {
+                ...(isActive !== undefined && { isActive }),
+                ...(name && {
+                    name: {
+                        contains: name,
+                        mode: 'insensitive'
+                    }
+                }),
+                ...(email && {
+                    email: {
+                        contains: email,
+                        mode: 'insensitive'
+                    }
+                }),
+                ...(roleId && {
+                    roles: {
+                        some: {
+                            roleId: { in: roleId }
+                        }
+                    }
+                })
+            }
+        });
     }
 
     // N:N Table operations for linking roles and modules
