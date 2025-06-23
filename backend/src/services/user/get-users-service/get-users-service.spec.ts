@@ -38,7 +38,12 @@ describe('GetUsersService', () => {
 
         userRepository.getUsers.mockResolvedValue(mockUsers);
 
-        const result = await getUsersService.execute('Alice', 'alice@example.com', true, ['role1']);
+        const result = await getUsersService.execute({
+            name: 'Alice',
+            email: 'alice@example.com',
+            isActive: true,
+            roleId: ['role1']
+        });
 
         expect(userRepository.getUsers).toHaveBeenCalledWith({
             isActive: true,
@@ -52,7 +57,12 @@ describe('GetUsersService', () => {
     it('should return empty array if no users found', async () => {
         userRepository.getUsers.mockResolvedValue([]);
 
-        const result = await getUsersService.execute('', '', true, []);
+        const result = await getUsersService.execute({
+            name: '',
+            email: '',
+            isActive: true,
+            roleId: []
+        });
 
         expect(userRepository.getUsers).toHaveBeenCalledWith({
             isActive: true,
@@ -67,7 +77,12 @@ describe('GetUsersService', () => {
         userRepository.getUsers.mockRejectedValue(new Error('DB error'));
 
         await expect(
-            getUsersService.execute('Test', 'test@example.com', false, ['role2'])
+            getUsersService.execute({
+                name: 'Test',
+                email: 'test@example.com',
+                isActive: false,
+                roleId: ['role2']
+            })
         ).rejects.toThrow('DB error');
     });
 });
