@@ -1,5 +1,5 @@
 import configs from '@configs/index';
-import { authRevokedSession, authSessionExpired, authSessionNotFound, authUserNotFound } from '@errors/auth';
+import { authInvalidJWT, authRevokedSession, authSessionExpired, authSessionNotFound, authUserDeactivated, authUserNotFound } from '@errors/auth';
 import { parseDuration } from '@helpers/parse-duration';
 import { Session, User } from '@prisma/client';
 import { UserRepository } from '@repositories/user-repository';
@@ -33,10 +33,19 @@ class JwtAuth {
     }
 
     async verifySession(token: string): Promise<jwt.JwtPayload> {
-        const userJwt = this.verifyToken(token) as jwt.JwtPayload;
 
-        const user = this.userRepository.getUserById(userJwt.userId);
+        let userJwt;
+        
+        try {
+            userJwt = this.verifyToken(token) as jwt.JwtPayload;
+        }
+        catch {
+            throw authInvalidJWT;
+        }
+
+        const user = await this.userRepository.getUserById(userJwt.userId);
         if (!user) { throw authUserNotFound; }
+        if(!user.isActive){ throw authUserDeactivated; }
 
         const session = await this.sessionRepository.getSessionByAccessToken(token);
         if (!session) { throw authSessionNotFound; }
@@ -44,6 +53,7 @@ class JwtAuth {
         if(session.accessTokenExpiresAt < new Date()) {
             throw authSessionExpired;
         }
+
 
         return userJwt;
     };

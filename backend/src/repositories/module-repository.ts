@@ -21,7 +21,7 @@ export class ModuleRepository {
     }
 
     async updateModule(id: string, data: Partial<Module>): Promise<Module> {
-        return prisma.module.update({ where: { id }, data });
+        return prisma.module.update({ where: { id }, data: {...data, updatedAt: new Date()} });
     }
 
     async deleteModule(id: string): Promise<Module> {

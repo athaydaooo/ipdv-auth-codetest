@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import logger from '@utils/logger';
 import { crypto } from '../src/utils/crypto';
 
 const prisma = new PrismaClient();
@@ -95,7 +96,7 @@ async function main() {
 
   // Sessions permanece vazia (nenhuma ação necessária)
 
-  console.log('Seed concluído com sucesso!');
+  logger.info('Database seeded successfully');
 }
 
 main()

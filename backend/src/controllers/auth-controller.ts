@@ -51,7 +51,6 @@ export class AuthController {
         const { authorization } = logoutSchema.parse(request.headers);
 
         await this.logoutService.execute(authorization);
-        console.log('Logout realizado com sucesso');
 
         return response.status(200).json();
     }

@@ -20,6 +20,11 @@ export const authInvalidRefreshToken = new AppError(
   401,
 );
 
+export const authInvalidJWT = new AppError(
+  "Invalid JWT",
+  401,
+);
+
 export const authUserNotFound = new AppError(
   "User Not Found",
   400,
@@ -69,6 +74,11 @@ export const authMissingPassword = new AppError(
 export const authInvalidPassword = new AppError(
   "Invalid password parameter",
   400,
+);
+
+export const authUserDeactivated = new AppError(
+  "User is deactivated",
+  401,
 );
 
 
