@@ -11,8 +11,21 @@ export class SessionRepository {
         return await prisma.session.findUnique({ where: { id } });
     }
 
+    async getSessionByAccessToken(accessToken: string): Promise<Session | null> {
+        return await prisma.session.findUnique({ where: { accessToken } });
+    }
+
+    async getSessionByRefreshToken(refreshToken: string): Promise<Session | null> {
+        return await prisma.session.findUnique({ where: { refreshToken } });
+    }
+
     async createSession(data: Omit<Session, 'id'>): Promise<Session> {
-        return await prisma.session.create({ data });
+        return await prisma.session.create({
+            data: {
+                ...data,
+                id: undefined 
+            }
+        });
     }
 
     async updateSession(id: string, data: Partial<Session>): Promise<Session> {

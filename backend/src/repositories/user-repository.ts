@@ -12,7 +12,12 @@ export class UserRepository {
     }
 
     async createUser(data: Omit<User, 'id'>): Promise<User> {
-        return prisma.user.create({ data });
+        return prisma.user.create({
+            data: {
+                ...data,
+                id: undefined 
+            }
+        });
     }
 
     async updateUser(id: string, data: Partial<User>): Promise<User> {

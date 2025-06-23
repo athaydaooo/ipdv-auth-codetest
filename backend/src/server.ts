@@ -6,7 +6,7 @@ import 'express-async-errors'
 import logger from 'src/utils/logger'
 import configs from './configs'
 import errorParserMiddleware from './middlewares/error-parser'
-import { routes } from './routes'
+import { routes } from './routes/routes'
 
 const app = express()
 

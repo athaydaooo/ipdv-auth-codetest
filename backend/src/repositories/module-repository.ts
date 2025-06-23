@@ -12,7 +12,12 @@ export class ModuleRepository {
     }
 
     async createModule(data: Omit<Module, 'id'>): Promise<Module> {
-        return prisma.module.create({ data });
+        return prisma.module.create({
+            data: {
+                ...data,
+                id: undefined 
+            }
+        });
     }
 
     async updateModule(id: string, data: Partial<Module>): Promise<Module> {

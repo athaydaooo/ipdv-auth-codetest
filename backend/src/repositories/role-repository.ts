@@ -12,7 +12,12 @@ export class RoleRepository {
     }
 
     async createRole(data: Omit<Role, 'id'>): Promise<Role> {
-        return prisma.role.create({ data });
+        return prisma.role.create({
+            data: {
+                ...data,
+                id: undefined 
+            }
+        });
     }
 
     async updateRole(id: string, data: Partial<Role>): Promise<Role> {
