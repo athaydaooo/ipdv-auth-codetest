@@ -1,5 +1,5 @@
 import { authInvalidToken, authMissingToken } from '@errors/auth';
-import { jwtAuth } from '@util/jwt';
+import { jwtAuth } from '@utils/jwt';
 import { NextFunction, Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 

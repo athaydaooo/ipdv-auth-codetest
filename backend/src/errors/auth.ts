@@ -20,8 +20,19 @@ export const authSessionNotFound = new AppError(
   400,
 );
 
+export const authSessionExpired = new AppError(
+  "Session Expired",
+  400,
+);
+
 export const authAlreadyRevokedSession = new AppError(
   "Already revoked session",
+  400,
+);
+
+
+export const authRevokedSession = new AppError(
+  "This Session is Revoked",
   400,
 );
 
@@ -29,5 +40,6 @@ export const authInvalidCredentials = new AppError(
   "Invalid email or password",
   400,
 );
+
 
 
