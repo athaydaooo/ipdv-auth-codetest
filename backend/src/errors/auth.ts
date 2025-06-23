@@ -10,6 +10,16 @@ export const authMissingToken = new AppError(
   401,
 );
 
+export const authMissingRefreshToken = new AppError(
+  "Refresh token missing",
+  401,
+);
+
+export const authInvalidRefreshToken = new AppError(
+  "Invalid token missing",
+  401,
+);
+
 export const authUserNotFound = new AppError(
   "User Not Found",
   400,
@@ -41,5 +51,24 @@ export const authInvalidCredentials = new AppError(
   400,
 );
 
+export const authMissingEmail = new AppError(
+  "Email parameter is missing",
+  400,
+);
+
+export const authInvalidEmail = new AppError(
+  "Invalid email parameter",
+  400,
+);
+
+export const authMissingPassword = new AppError(
+  "Password parameter is missing",
+  400,
+);
+
+export const authInvalidPassword = new AppError(
+  "Invalid password parameter",
+  400,
+);
 
 

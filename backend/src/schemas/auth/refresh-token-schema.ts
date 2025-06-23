@@ -1,15 +1,16 @@
+import { authInvalidRefreshToken, authMissingRefreshToken } from "@errors/auth";
 import { jwtAuth } from "@utils/jwt";
 import { z } from "zod";
 
 export const refreshTokenSchema = z.object({
     refreshToken: z
         .string({
-            required_error: "Refresh token is required",
-            invalid_type_error: "Refresh token must be a string",
+            required_error: `${authMissingRefreshToken.statusCode} |~| ${authMissingRefreshToken.message}`,
+            invalid_type_error: `${authInvalidRefreshToken.statusCode} |~| ${authInvalidRefreshToken.message}`,
         })
-        .min(1, "Refresh token cannot be empty")
+        .min(1, `${authInvalidRefreshToken.statusCode} |~| ${authInvalidRefreshToken.message}`)
         .regex(
             jwtAuth.jwtRegex,
-            "Invalid JWT format for refresh token"
+            `${authInvalidRefreshToken.statusCode} |~| ${authInvalidRefreshToken.message}`
         ),
 });
