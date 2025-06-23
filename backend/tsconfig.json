@@ -27,7 +27,7 @@
       "@schemas/*": ["src/schemas/*"],
       "@services/*": ["src/services/*"],
       "@types/*": ["src/types/*"],
-      "@errors/*": ["src/errors/*"],
+      "@errors/*": ["src/errors/*"]
     },
     "resolveJsonModule": true
   }
