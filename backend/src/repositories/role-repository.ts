@@ -1,3 +1,4 @@
+import { userNotEnoughtParameters } from '@errors/user';
 import { Module, PrismaClient, Role } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -5,6 +6,38 @@ const prisma = new PrismaClient();
 export class RoleRepository {
     async getAllRoles(): Promise<Role[]> {
         return prisma.role.findMany();
+    }
+
+    async GetRoleByName(name: string): Promise<Role | null> {
+        return prisma.role.findFirst({
+            where: {
+                name: {
+                    contains: name,
+                    mode: 'insensitive',
+                },
+            },
+        });
+    }
+
+    async getRoles(name?: string, description?: string): Promise<Role[]> {
+        if (!name && !description) {
+            throw userNotEnoughtParameters;
+        }
+        
+        return prisma.role.findMany(
+            {
+                where: {
+                    name: {
+                        contains: name,
+                        mode: 'insensitive',
+                    },
+                    description: {
+                        contains: description,
+                        mode: 'insensitive',
+                    },
+                },
+            }
+        );
     }
 
     async getRoleById(id: string): Promise<Role | null> {
@@ -47,6 +80,31 @@ export class RoleRepository {
             }
         });
     }
+
+    async getRoleWithModulesById(roleId: string): Promise<(Role & { modules: Module[] })> {
+        const role = await prisma.role.findUnique({
+            where: { id: roleId },
+            include: {
+                modules: {
+                    include: {
+                        module: true,
+                    },
+                },
+            },
+        });
+
+        if (!role) throw new Error(`Role with ID ${roleId} not found`);
+
+        const modules = role.modules.map((rm) => rm.module);
+
+        const { modules: _, ...roleData } = role;
+
+        return {
+            ...roleData,
+            modules,
+        };
+    }
+
 
     async getModulesByRole(roleId: string): Promise<Module[]> {
         const modules = await prisma.module.findMany({

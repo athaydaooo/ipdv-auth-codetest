@@ -62,3 +62,14 @@ export const roleMissingRoleIds = new AppError(
     "roleIds parameter is missing",
     400,
 );
+
+export const roleNotFound = new AppError(
+    "Role not found",
+    400,
+);
+
+
+export const roleNameAlreadyExists = new AppError(
+    "Role with this name already exists",
+    400,
+);
