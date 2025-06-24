@@ -36,7 +36,7 @@ export class RoleController {
     }
 
     /**
-     * @route GET /api/roles
+     * @route GET /roles
      * @description Retorna uma lista de todas as funções cadastradas. Permite busca opcional por nome ou descrição via query params `name` ou `description`.
      * @param {string} [req.query.name] - (opcional) Termo para filtrar funções pelo nome.
      * @param {string} [req.query.description] - (opcional) Termo para filtrar funções pela descrição.
@@ -54,7 +54,7 @@ export class RoleController {
     }
 
     /**
-     * @route GET /api/roles/:id
+     * @route GET /roles/:id
      * @description Retorna uma função específica, incluindo os módulos associados a ela.
      * @param {string} req.params.id - Identificador da função.
      * @returns {Role} 200 - Função encontrada com seus módulos.
@@ -69,7 +69,7 @@ export class RoleController {
     }
 
     /**
-     * @route POST /api/roles
+     * @route POST /roles
      * @description Cria uma nova função com nome e descrição informados.
      * @param {Object} req.body - Dados da nova função.
      * @param {string} req.body.name - Nome da função.
@@ -86,7 +86,7 @@ export class RoleController {
     }
 
     /**
-     * @route PUT /api/roles/:id
+     * @route PUT /roles/:id
      * @description Atualiza os dados (nome e/ou descrição) de uma função existente.
      * @param {string} req.params.id - Identificador da função.
      * @param {Object} req.body - Dados para atualização.
@@ -107,7 +107,7 @@ export class RoleController {
     }
 
     /**
-     * @route PUT /api/roles/:id/modules
+     * @route PUT /roles/:id/modules
      * @description Atualiza os módulos associados a uma função.
      * @param {string} req.params.id - Identificador da função.
      * @param {Object} req.body - Dados para atualização de módulos.
