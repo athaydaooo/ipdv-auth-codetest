@@ -32,7 +32,7 @@ export class UserController {
     }
 
     /**
-     * @route GET /api/users
+     * @route GET /users
      * @description Lista todos os usuários, com filtros opcionais por status ativo, função (role) e busca por nome/email.
      * @param {boolean} [req.query.isActive] - Filtrar por usuários ativos/inativos.
      * @param {string} [req.query.roleId] - Filtrar por função (role) do usuário.
@@ -57,7 +57,7 @@ export class UserController {
     }
 
     /**
-     * @route GET /api/users/:id
+     * @route GET /users/:id
      * @description Busca um usuário pelo ID, incluindo suas funções (roles).
      * @param {string} req.params.id - ID do usuário.
      * @returns {User} 200 - Usuário encontrado com funções associadas.
@@ -71,7 +71,7 @@ export class UserController {
     }
 
     /**
-     * @route POST /api/users
+     * @route POST /users
      * @description Cria um novo usuário com nome, email, senha e funções (roles) associadas.
      * @param {Object} req.body - Dados do novo usuário.
      * @param {string} req.body.name - Nome do usuário.
@@ -95,7 +95,7 @@ export class UserController {
     }
 
     /** 
-     * @route PUT /api/users/:id
+     * @route PUT /users/:id
      * @description Atualiza informações básicas de um usuário (nome, email ou status ativo).
      * @param {string} req.params.id - ID do usuário.
      * @param {Object} req.body - Dados para atualização.
@@ -120,7 +120,7 @@ export class UserController {
     }
 
     /**
-     * @route PUT /api/users/:id/password
+     * @route PUT /users/:id/password
      * @description Atualiza a senha de um usuário.
      * @param {string} req.params.id - ID do usuário.
      * @param {Object} req.body - Dados para atualização de senha.
@@ -141,7 +141,7 @@ export class UserController {
     }
 
     /**  
-     * @route PUT /api/users/:id/roles
+     * @route PUT /users/:id/roles
      * @description Atualiza as funções (roles) associadas a um usuário.
      * @param {string} req.params.id - ID do usuário.
      * @param {Object} req.body - Dados para atualização de funções.
@@ -163,7 +163,7 @@ export class UserController {
     }
 
     /**
-     * @route DELETE /api/users/:id
+     * @route DELETE /users/:id
      * @description Desabilita um usuário pelo ID.
      * @param {string} req.params.id - ID do usuário.
      * @returns {void} 200 - Usuário desabilitado com sucesso.

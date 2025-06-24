@@ -41,7 +41,7 @@ describe('UpdateUserByIdService', () => {
 
         expect(userRepository.getUserById).toHaveBeenCalledWith(userId);
         expect(userRepository.updateUser).toHaveBeenCalledWith(userId, expect.objectContaining({ name: 'New Name' }));
-        expect(result).toEqual(updatedUser);
+        expect(result).toEqual({user: updatedUser});
     });
 
     it('should update user email and isActive successfully', async () => {
@@ -69,7 +69,7 @@ describe('UpdateUserByIdService', () => {
 
         expect(userRepository.getUserById).toHaveBeenCalledWith(userId);
         expect(userRepository.updateUser).toHaveBeenCalledWith(userId, expect.objectContaining({ email: 'new@example.com', isActive: true }));
-        expect(result).toEqual(updatedUser);
+        expect(result).toEqual({user: updatedUser});
     });
 
     it('should throw error if no update parameters are provided', async () => {

@@ -24,7 +24,7 @@ export class AuthController {
     }
 
     /**
-     * @route POST /api/auth/login
+     * @route POST /auth/login
      * @description Autentica um usuário com email e senha.
      * @param {Object} req.body - Dados de autenticação do usuário.
      * @param {string} req.body.email - Email do usuário.
@@ -41,7 +41,7 @@ export class AuthController {
     }
 
     /**
-     * @route POST /api/auth/logout
+     * @route POST /auth/logout
      * @description Encerra a sessão do usuário autenticado.
      * @header {string} Authorization - Token JWT no formato Bearer.
      * @returns {void} 200 - Logout realizado com sucesso.
@@ -56,7 +56,7 @@ export class AuthController {
     }
 
     /**
-     * @route POST /api/auth/refresh
+     * @route POST /auth/refresh
      * @description Gera um novo token de acesso usando um refresh token válido.
      * @param {Object} req.body - Dados para renovação do token.
      * @param {string} req.body.refreshToken - Refresh token válido.

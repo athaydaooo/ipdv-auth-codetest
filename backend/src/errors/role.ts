@@ -25,6 +25,16 @@ export const roleInvalidName = new AppError(
     400,
 );
 
+export const roleInvalidDescription = new AppError(
+    "Invalid description parameter",
+    400,
+);
+
+export const roleMissingDescription = new AppError(
+    "description parameter is missing",
+    400,
+);
+
 export const roleMissingName = new AppError(
     "name parameter is missing",
     400,
@@ -62,3 +72,35 @@ export const roleMissingRoleIds = new AppError(
     "roleIds parameter is missing",
     400,
 );
+
+export const roleNotFound = new AppError(
+    "Role not found",
+    400,
+);
+
+
+export const roleNameAlreadyExists = new AppError(
+    "Role with this name already exists",
+    400,
+);
+
+export const roleMissingModuleIds = new AppError(
+    "moduleIds parameter is missing",
+    400,
+);
+
+export const roleInvalidModuleIds = new AppError(
+    "Invalid moduleIds parameter",
+    400,
+);
+
+export const roleInvalidArray = new AppError(
+    "This parameter must be an array",
+    400,
+);
+
+export const roleMissingArray = new AppError(
+    "This array should not be empty",
+    400,
+);
+
