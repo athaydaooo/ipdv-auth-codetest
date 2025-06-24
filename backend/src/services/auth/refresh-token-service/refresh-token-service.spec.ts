@@ -37,12 +37,12 @@ describe('RefreshTokenService', () => {
             const foundSession = await sessionRepository.getSessionByRefreshToken(refreshToken);
             if (!foundSession) throw authSessionNotFound;
             if (foundSession.isRevoked) throw authAlreadyRevokedSession;
-            return foundSession;
+            return {session:foundSession};
         };
 
         const result = await refreshTokenService.execute('validRefreshToken');
         expect(sessionRepository.getSessionByRefreshToken).toHaveBeenCalledWith('validRefreshToken');
-        expect(result).toEqual(session);
+        expect(result).toEqual({session});
     });
 
     it('should throw error if session not found', async () => {

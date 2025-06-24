@@ -47,7 +47,7 @@ describe('UpdatePasswordByIdService', () => {
         expect(userRepository.getUserById).toHaveBeenCalledWith(userId);
         expect(mockCrypto.encrypt).toHaveBeenCalledWith({ data: plainPassword });
         expect(userRepository.updateUser).toHaveBeenCalledWith(userId, { password: hashedPassword });
-        expect(result).toEqual(updatedUser);
+        expect(result).toEqual({user: updatedUser});
     });
 
     it('should throw error if user not found', async () => {

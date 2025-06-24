@@ -1,3 +1,4 @@
+import { userNotEnoughtParameters } from '@errors/user';
 import { PrismaClient, Role, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -46,8 +47,9 @@ export class UserRepository {
             !name &&
             !email
         ) {
-          throw new Error('At least one filter must be provided');
+          throw userNotEnoughtParameters;
         }
+
         return prisma.user.findMany({
             where: {
                 ...(isActive !== undefined && { isActive }),

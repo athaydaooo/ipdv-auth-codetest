@@ -15,12 +15,12 @@ export class DeleteUserByIdService {
      * @returns A promise that resolves to the updated user.
      * @throws Error if the user does not exist.
      */
-    async execute(userId: string): Promise<User> {
+    async execute(userId: string): Promise<{user: User}> {
         const user = await this.userRepository.getUserById(userId);
         if (!user) { throw authUserNotFound; }
 
         const updatedUser = await this.userRepository.updateUser(userId, { isActive: false });
 
-        return updatedUser;
+        return { user: updatedUser };
     }
 }

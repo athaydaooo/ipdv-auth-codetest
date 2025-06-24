@@ -29,7 +29,7 @@ describe('GetUserByIdService', () => {
         const result = await getUserByIdService.execute('1');
 
         expect(userRepository.getUserById).toHaveBeenCalledWith('1');
-        expect(result).toEqual(mockUser);
+        expect(result).toEqual({user:mockUser});
     });
 
     it('should return null if user not found', async () => {

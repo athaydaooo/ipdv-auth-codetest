@@ -9,6 +9,8 @@ interface UpdateUserByIdServiceRequest {
     email?: string;
     isActive?: boolean;
 }
+
+interface UpdateUserByIdServiceResponse {user:User}
 export class UpdateUserByIdService {
     private userRepository: UserRepository;
 
@@ -23,7 +25,7 @@ export class UpdateUserByIdService {
      * @returns The updated user.
      * @throws userNotFound if the user does not exist.
      */
-    async execute(data: UpdateUserByIdServiceRequest): Promise<User> {
+    async execute(data: UpdateUserByIdServiceRequest): Promise<UpdateUserByIdServiceResponse> {
         const { id, name, email, isActive } = data;
 
         if (name === undefined && email === undefined && isActive === undefined) {
@@ -42,6 +44,6 @@ export class UpdateUserByIdService {
             updatedAt: new Date(),
         });
 
-        return updatedUser;
+        return { user: updatedUser };
     }
 }

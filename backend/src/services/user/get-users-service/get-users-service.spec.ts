@@ -51,7 +51,7 @@ describe('GetUsersService', () => {
             name: 'Alice',
             email: 'alice@example.com'
         });
-        expect(result).toEqual(mockUsers);
+        expect(result).toEqual({users: mockUsers});
     });
 
     it('should return empty array if no users found', async () => {
@@ -70,7 +70,7 @@ describe('GetUsersService', () => {
             name: '',
             email: ''
         });
-        expect(result).toEqual([]);
+        expect(result).toEqual({users: []});
     });
 
     it('should propagate errors from repository', async () => {

@@ -42,7 +42,7 @@ describe('UpdateUserRolesByIdService', () => {
         userRepository.unlinkRole.mockResolvedValue(undefined);
         userRepository.getUserById.mockResolvedValueOnce(updatedUser); // after update
 
-        await expect(updateUserRolesByIdService.execute(userId, newRolesId)).resolves.toEqual(updatedUser);
+        await expect(updateUserRolesByIdService.execute(userId, newRolesId)).resolves.toEqual({user: updatedUser});
 
         expect(userRepository.getUserById).toHaveBeenCalledWith(userId);
         expect(userRepository.getRolesByUser).toHaveBeenCalledWith(userId);
@@ -72,7 +72,7 @@ describe('UpdateUserRolesByIdService', () => {
         userRepository.getRolesByUser.mockResolvedValue(roles);
         userRepository.getUserById.mockResolvedValueOnce(user);
 
-        await expect(updateUserRolesByIdService.execute(userId, rolesId)).resolves.toEqual(user);
+        await expect(updateUserRolesByIdService.execute(userId, rolesId)).resolves.toEqual({user});
 
         expect(userRepository.linkRole).not.toHaveBeenCalled();
         expect(userRepository.unlinkRole).not.toHaveBeenCalled();

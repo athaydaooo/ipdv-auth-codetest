@@ -2,6 +2,7 @@ import { authUserNotFound } from "@errors/auth";
 import { User } from "@prisma/client";
 import { UserRepository } from "@repositories/user-repository";
 
+interface UpdateUserRolesByIdServiceResponse { user:User }
 export class UpdateUserRolesByIdService {
     private userRepository: UserRepository;
 
@@ -16,7 +17,7 @@ export class UpdateUserRolesByIdService {
      * @returns The updated user.
      * @throws userNotFound if the user does not exist.
      */
-    async execute(id: string, rolesId: string[]): Promise<User> {
+    async execute(id: string, rolesId: string[]): Promise<UpdateUserRolesByIdServiceResponse> {
         const user = await this.userRepository.getUserById(id);
         if (!user) { throw authUserNotFound;}
 
@@ -42,6 +43,6 @@ export class UpdateUserRolesByIdService {
         const updatedUser = await this.userRepository.getUserById(id);
         if (!updatedUser) { throw authUserNotFound;}
         
-        return updatedUser;
+        return { user: updatedUser };
     }
 }

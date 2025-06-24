@@ -4,6 +4,7 @@ import { SessionRepository } from "@repositories/session-repository";
 import { UserRepository } from "@repositories/user-repository";
 import { jwtAuth } from "@utils/jwt";
 
+interface RefreshTokenServiceResponse {session: Session}
 export class RefreshTokenService {
     private sessionRepository: SessionRepository;
     private userRepository: UserRepository;
@@ -21,7 +22,7 @@ export class RefreshTokenService {
      * @throws authRevokedSession if the session has been revoked.
      * @throws authUserNotFound if the user associated with the session does not exist.
      */
-    async execute(refreshToken: string): Promise<Session> {
+    async execute(refreshToken: string): Promise<RefreshTokenServiceResponse> {
 
         const session = await this.sessionRepository.getSessionByRefreshToken(refreshToken);
         if (!session) { throw authSessionNotFound;}
@@ -38,6 +39,6 @@ export class RefreshTokenService {
 
         await this.sessionRepository.revokeSession(session.accessToken);
 
-        return newSession;
+        return { session:newSession };
     }
 }

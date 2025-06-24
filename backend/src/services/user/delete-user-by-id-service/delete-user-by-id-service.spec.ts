@@ -36,7 +36,7 @@ describe('DeleteUserByIdService', () => {
 
         expect(userRepository.getUserById).toHaveBeenCalledWith(userId);
         expect(userRepository.updateUser).toHaveBeenCalledWith(userId, { isActive: false });
-        expect(result).toEqual(updatedUser);
+        expect(result).toEqual({user: updatedUser });
     });
 
     it('should throw error if user not found', async () => {
