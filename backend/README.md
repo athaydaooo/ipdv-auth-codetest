@@ -217,3 +217,169 @@ erDiagram
 
 * Controle de sessão ativo
 * Auditoria completa de acessos
+
+
+## Endpoints
+### AuthController
+
+#### postLogin
+- `POST /auth/login`
+- Autentica um usuário com email e senha.
+- **Request Body:**  
+    - `email` (string): Email do usuário.
+    - `password` (string): Senha do usuário.
+- **Responses:**  
+    - `200`: Retorna o usuário autenticado, token de acesso e data de expiração.
+    - `401`: Credenciais inválidas.
+
+#### postLogout
+- `POST /auth/logout`
+- Encerra a sessão do usuário autenticado.
+- **Headers:**  
+    - `Authorization` (string): Token JWT no formato Bearer.
+- **Responses:**  
+    - `200`: Logout realizado com sucesso.
+    - `401`: Token inválido ou ausente.
+
+#### postRefresh
+- `POST /auth/refresh`
+- Gera um novo token de acesso usando um refresh token válido.
+- **Request Body:**  
+    - `refreshToken` (string): Refresh token válido.
+- **Responses:**  
+    - `200`: Retorna novo token de acesso e data de expiração.
+    - `401`: Refresh token inválido ou expirado.
+
+---
+
+### RoleController
+
+#### getRoles
+- `GET /roles`
+- Retorna uma lista de todas as funções cadastradas. Permite busca opcional por nome ou descrição via query params.
+- **Query Params:**  
+    - `name` (string, opcional): Termo para filtrar funções pelo nome.
+    - `description` (string, opcional): Termo para filtrar funções pela descrição.
+- **Responses:**  
+    - `200`: Lista de funções.
+
+#### getRoleById
+- `GET /roles/:id`
+- Retorna uma função específica, incluindo os módulos associados a ela.
+- **Params:**  
+    - `id` (string): Identificador da função.
+- **Responses:**  
+    - `200`: Função encontrada com seus módulos.
+    - `404`: Função não encontrada.
+
+#### postRole
+- `POST /roles`
+- Cria uma nova função com nome e descrição informados.
+- **Request Body:**  
+    - `name` (string): Nome da função.
+    - `description` (string): Descrição da função.
+- **Responses:**  
+    - `201`: Função criada.
+    - `400`: Dados inválidos.
+
+#### putRole
+- `PUT /roles/:id`
+- Atualiza os dados (nome e/ou descrição) de uma função existente.
+- **Params:**  
+    - `id` (string): Identificador da função.
+- **Request Body:**  
+    - `name` (string, opcional): Novo nome da função.
+    - `description` (string, opcional): Nova descrição da função.
+- **Responses:**  
+    - `200`: Função atualizada.
+    - `404`: Função não encontrada.
+
+#### putRoleModules
+- `PUT /roles/:id/modules`
+- Atualiza os módulos associados a uma função.
+- **Params:**  
+    - `id` (string): Identificador da função.
+- **Request Body:**  
+    - `moduleIds` (string[]): Lista de IDs dos módulos a serem associados.
+- **Responses:**  
+    - `200`: Função com módulos atualizados.
+    - `404`: Função não encontrada.
+
+---
+
+### UserController
+
+#### getUsers
+- `GET /users`
+- Lista todos os usuários, com filtros opcionais por status ativo, função (role) e busca por nome/email.
+- **Query Params:**  
+    - `isActive` (boolean, opcional): Filtrar por usuários ativos/inativos.
+    - `roleId` (string, opcional): Filtrar por função (role) do usuário.
+    - `search` (string, opcional): Buscar por nome ou email.
+- **Responses:**  
+    - `200`: Lista de usuários.
+
+#### getUser
+- `GET /users/:id`
+- Busca um usuário pelo ID, incluindo suas funções (roles).
+- **Params:**  
+    - `id` (string): ID do usuário.
+- **Responses:**  
+    - `200`: Usuário encontrado com funções associadas.
+    - `404`: Usuário não encontrado.
+
+#### postUser
+- `POST /users`
+- Cria um novo usuário com nome, email, senha e funções (roles) associadas.
+- **Request Body:**  
+    - `name` (string): Nome do usuário.
+    - `email` (string): Email do usuário.
+    - `password` (string): Senha do usuário.
+    - `roleIds` (string[]): IDs das funções (roles) associadas.
+- **Responses:**  
+    - `201`: Usuário criado.
+    - `400`: Dados inválidos.
+
+#### putUser
+- `PUT /users/:id`
+- Atualiza informações básicas de um usuário (nome, email ou status ativo).
+- **Params:**  
+    - `id` (string): ID do usuário.
+- **Request Body:**  
+    - `name` (string, opcional): Novo nome do usuário.
+    - `email` (string, opcional): Novo email do usuário.
+    - `isActive` (boolean, opcional): Novo status ativo.
+- **Responses:**  
+    - `200`: Usuário atualizado.
+    - `404`: Usuário não encontrado.
+
+#### putPassword
+- `PUT /users/:id/password`
+- Atualiza a senha de um usuário.
+- **Params:**  
+    - `id` (string): ID do usuário.
+- **Request Body:**  
+    - `newPassword` (string): Nova senha.
+- **Responses:**  
+    - `200`: Senha atualizada com sucesso.
+    - `404`: Usuário não encontrado.
+
+#### putUserRoles
+- `PUT /users/:id/roles`
+- Atualiza as funções (roles) associadas a um usuário.
+- **Params:**  
+    - `id` (string): ID do usuário.
+- **Request Body:**  
+    - `roleIds` (string[]): Novos IDs das funções (roles).
+- **Responses:**  
+    - `200`: Usuário com funções atualizadas.
+    - `404`: Usuário não encontrado.
+
+#### deleteUser
+- `DELETE /users/:id`
+- Desabilita um usuário pelo ID.
+- **Params:**  
+    - `id` (string): ID do usuário.
+- **Responses:**  
+    - `200`: Usuário desabilitado com sucesso.
+    - `404`: Usuário não encontrado.
