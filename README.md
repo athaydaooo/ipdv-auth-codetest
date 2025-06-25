@@ -29,6 +29,25 @@ Para parar os containers, utilize:
 docker-compose down
 ```
 
+## 🌱 Populando o Banco de Dados com Dados Padrão
+
+Após configurar as variáveis de ambiente e subir os containers, é necessário popular o banco de dados com dados iniciais para que o sistema funcione corretamente. Para isso, execute o comando abaixo dentro da pasta `backend`:
+
+```bash
+pnpm prisma db seed
+```
+
+Esse comando irá criar os módulos, papéis (roles) e usuários padrão no banco de dados. Os usuários criados são:
+
+| Nome             | E-mail                     | Papel                  | Senha     |
+|------------------|---------------------------|------------------------|-----------|
+| Lucas Pereira    | lucas.pereira@email.com   | superadmin             | @Senha123 |
+| Ana Souza        | ana.souza@email.com       | admin                  | @Senha123 |
+| Carlos Lima      | carlos.lima@email.com     | operador de logistica  | @Senha123 |
+| Mariana Alves    | mariana.alves@email.com   | operador financeiro    | @Senha123 |
+
+Cada usuário possui permissões de acordo com seu papel, permitindo testar diferentes níveis de acesso no sistema.
+
 ## 🤝 Como Contribuir
 1. Fork este repositório
 2. Crie uma branch com sua feature: git checkout -b minha-feature
