@@ -20,10 +20,14 @@ COPY . .
 # Gera os arquivos os tipos do banco de dados com Prisma
 RUN pnpm prisma generate
 
+# Executa o seed do banco de dados, mas continua mesmo se houver erro
+RUN pnpm prisma db seed || true
+
+
 # Constrói o projeto para produção
 RUN pnpm run build
 
-# Expõe a porta 3000W
+# Expõe a porta 3000
 EXPOSE 3000
 
 # Comando para rodar o servidor

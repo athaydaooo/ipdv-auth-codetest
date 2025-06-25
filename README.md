@@ -1,5 +1,9 @@
 # IPDV Auth Codetest
 
+## 📝 Sobre o Projeto
+
+Este projeto é um sistema de autenticação que suporta múltiplos papéis de usuário (multi roles), permitindo o controle de acesso baseado em diferentes níveis de permissão. Ele foi desenvolvido para facilitar a gestão de usuários com funções distintas, como administradores, usuários comuns e outros perfis personalizados, garantindo segurança e flexibilidade na autenticação e autorização das aplicações.
+
 ## ⚙️ Configuração de Variáveis de Ambiente
 
 Antes de iniciar o desenvolvimento ou executar os projetos, é fundamental preencher corretamente os arquivos `.env` de cada um deles. Esses arquivos contêm variáveis de ambiente essenciais para o funcionamento das aplicações, como chaves de API, URLs de serviços e configurações sensíveis.
