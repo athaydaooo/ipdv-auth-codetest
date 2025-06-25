@@ -49,7 +49,7 @@ export class RoleController {
             name,
             description,
         });
-
+        
         return response.status(200).json(roles);
     }
 

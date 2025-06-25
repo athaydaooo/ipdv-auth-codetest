@@ -18,6 +18,7 @@ export class UpdateUserRolesByIdService {
      * @throws userNotFound if the user does not exist.
      */
     async execute(id: string, rolesId: string[]): Promise<UpdateUserRolesByIdServiceResponse> {
+        console.log(rolesId)
         const user = await this.userRepository.getUserById(id);
         if (!user) { throw authUserNotFound;}
 

@@ -1,8 +1,8 @@
 import { authUserNotFound } from "@errors/auth";
-import { User } from "@prisma/client";
 import { UserRepository } from "@repositories/user-repository";
+import { UserEntity } from "src/mappers/users.mapper";
 
-interface GetUserByIdServiceResponse { user: User }
+interface GetUserByIdServiceResponse { user: UserEntity  }
 export class GetUserByIdService {
     private userRepository: UserRepository;
 
@@ -16,7 +16,7 @@ export class GetUserByIdService {
      * @returns A promise that resolves to the user, or null if not found.
      */
     async execute(identifier: string): Promise<GetUserByIdServiceResponse> {
-        let user: User | null = null;
+        let user: UserEntity | null = null;
 
         if (identifier.includes("@")) {
             user = await this.userRepository.getUserByEmail(identifier);

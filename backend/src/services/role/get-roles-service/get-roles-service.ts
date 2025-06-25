@@ -1,4 +1,3 @@
-import { userNotEnoughtParameters } from "@errors/user";
 import { Role } from "@prisma/client";
 import { RoleRepository } from "@repositories/role-repository";
 
@@ -17,11 +16,16 @@ export class GetRolesService {
      * @param search - Termo para filtrar funções pelo nome ou descrição.
      */
     async execute(data: GetRolesServiceRequest): Promise<GetRolesServiceResponse> {
-        if (!data || (data.name === undefined && data.description === undefined)) {
-            throw userNotEnoughtParameters;
+
+        let roles: Role[] = [];
+
+        if (!data || (!data.name && !data.description)) {
+            roles = await this.roleRepository.getAllRoles();
+        }
+        else{
+            roles = await this.roleRepository.getRoles(data.name, data.description);
         }
         
-        const roles = await this.roleRepository.getRoles(data.name, data.description);
         return { roles };
     }
 }

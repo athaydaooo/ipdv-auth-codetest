@@ -1,8 +1,8 @@
-import { User } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 import { UserRepository } from "@repositories/user-repository";
 
 interface GetUsersServiceRequest { name?: string; email?: string; isActive?: boolean; roleId?: string[] }
-interface GetUsersServiceResponse { users: User[] }
+interface GetUsersServiceResponse { users: (User & { roles: Role[] })[] }
 
 export class GetUsersService {
     private userRepository: UserRepository;
@@ -17,13 +17,24 @@ export class GetUsersService {
      */
     async execute(data: GetUsersServiceRequest): Promise<GetUsersServiceResponse> {
         const { name, email, isActive, roleId } = data;
+        let users : (User & { roles: Role[] })[] = [];
 
-        const users = await this.userRepository.getUsers({
-            isActive,
-            roleId,
-            name,
-            email
-        });
+        if (
+            isActive === undefined &&
+            !roleId &&
+            !name &&
+            !email
+        ) {
+            users = await this.userRepository.getAllUsers();
+        }
+        else{
+            users = await this.userRepository.getUsers({
+                isActive,
+                roleId,
+                name,
+                email
+            });
+        }
 
         return { users };
     }
