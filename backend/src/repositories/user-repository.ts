@@ -1,15 +1,39 @@
 import { userNotEnoughtParameters } from '@errors/user';
 import { PrismaClient, Role, User } from '@prisma/client';
+import { UserEntity } from 'src/mappers/users.mapper';
 
 const prisma = new PrismaClient();
 
 export class UserRepository {
-    async getAllUsers(): Promise<User[]> {
-        return prisma.user.findMany();
+    async getAllUsers(): Promise<(User & { roles: Role[] })[]> {
+        const users = await prisma.user.findMany({
+            include: {
+                roles: {
+                    include: {
+                        role: true
+                    }
+                }
+            }
+        });
+
+        return users.map(user => ({
+            ...user,
+            roles: user.roles.map(r => r.role)
+        }));
     }
 
-    async getUserById(id: string): Promise<User | null> {
-        return prisma.user.findUnique({ where: { id } });
+    async getUserById(id: string): Promise<UserEntity | null> {
+        const user = await prisma.user.findUnique({ where: { id },include: { roles: { include: { role: true } } } });
+        
+        if (!user) {
+            return null;
+        }
+
+        return {
+            ...user,
+            roles: user.roles.map(r => r.role)
+        }
+
     }
 
     async createUser(data: Omit<User, 'id'>): Promise<User> {
@@ -29,8 +53,18 @@ export class UserRepository {
         return prisma.user.delete({ where: { id } });
     }
 
-    async getUserByEmail(email: string): Promise<User | null> {
-        return prisma.user.findUnique({ where: { email } });
+    async getUserByEmail(email: string): Promise<UserEntity | null> {
+        const user = await prisma.user.findUnique({ where: { email },include: { roles: { include: { role: true } } } });
+
+        if (!user) {
+            return null;
+        }
+
+        return {
+            ...user,
+            roles: user.roles.map(r => r.role)
+        }
+
     }
 
     async getUsers(filters: {
@@ -38,7 +72,7 @@ export class UserRepository {
         roleId?: string[];
         name?: string;
         email?: string;
-    }): Promise<User[]> {
+    }): Promise<(User & { roles: Role[] })[]> {
         const { isActive, roleId, name, email } = filters;
 
         if (
@@ -50,7 +84,7 @@ export class UserRepository {
           throw userNotEnoughtParameters;
         }
 
-        return prisma.user.findMany({
+        const users = await prisma.user.findMany({
             where: {
                 ...(isActive !== undefined && { isActive }),
                 ...(name && {
@@ -72,8 +106,20 @@ export class UserRepository {
                         }
                     }
                 })
+            },
+            include: {
+                roles: {
+                    include: {
+                        role: true
+                    }
+                }
             }
         });
+
+        return users.map(user => ({
+            ...user,
+            roles: user.roles.map(r => r.role)
+        }));
     }
 
     // N:N Table operations for linking roles and modules
@@ -97,15 +143,12 @@ export class UserRepository {
     }
 
     async getRolesByUser(roleId: string): Promise<Role[]> {
-        const roles = await prisma.module.findMany({
-            where: {
-                roles: {
-                    some: {
-                        roleId: roleId
-                    }
-                }
-            }
+        const roles = await prisma.userRole.findMany({
+            where: { userId: roleId },
+            include: { role: true }
         });
-        return roles;
+
+        return roles.map(r => r.role);
+
     }
 }

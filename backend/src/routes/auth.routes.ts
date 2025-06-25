@@ -1,4 +1,3 @@
-import autenticationMiddleware from '@middlewares/authentication';
 import { SessionRepository } from '@repositories/session-repository';
 import { LoginService } from '@services/auth/login-service/login-service';
 import { Router } from 'express';
@@ -23,7 +22,7 @@ const authController = new AuthController({
 const authRouter = Router();
 
 authRouter.post('/login', authController.postLogin.bind(authController));
-authRouter.post('/logout', autenticationMiddleware, authController.postLogout.bind(authController));
-authRouter.post('/refresh', autenticationMiddleware, authController.postRefresh.bind(authController));
+authRouter.post('/logout', authController.postLogout.bind(authController));
+authRouter.post('/refresh', authController.postRefresh.bind(authController));
 
 export default authRouter;

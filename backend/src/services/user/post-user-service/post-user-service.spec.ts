@@ -76,7 +76,16 @@ describe('PostUserService', () => {
             password: 'password',
             roleIds: [],
         };
-        userRepository.getUserByEmail.mockResolvedValue({} as User);
+        userRepository.getUserByEmail.mockResolvedValue({
+            id: 'user-1',
+            name: request.name,
+            email: request.email,
+            password: request.password,
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            roles: []
+        });
 
         await expect(postUserService.execute(request)).rejects.toBe(userAlreadyExists);
     });

@@ -7,6 +7,7 @@ import { updateUserPasswordSchema } from "@schemas/user/put-user-roles-schema";
 import { updateUserSchema } from "@schemas/user/update-user-schema";
 import { UpdateUserByIdService } from "@services/user/update-user-by-id-service/update-user-by-id-service";
 import { Request, Response } from 'express';
+import { UserMapper } from "src/mappers/users.mapper";
 import { DeleteUserByIdService } from '../services/user/delete-user-by-id-service/delete-user-by-id-service';
 import { GetUserByIdService } from '../services/user/get-user-by-id-service/get-user-by-id-service';
 import { GetUsersService } from '../services/user/get-users-service/get-users-service';
@@ -40,8 +41,6 @@ export class UserController {
      * @returns {User[]} 200 - Lista de usuários.
      */
     async getUsers(request: Request, response: Response) {
-        //todo: fix search query
-        //todo: add pagination
         const { isActive, email, name, roleId } = getUsersQuerySchema.parse(request.query);
 
         const rolesId = roleId ? roleId.split(',') : undefined;
@@ -52,8 +51,9 @@ export class UserController {
             name,
             roleId: rolesId
         });
+        const parsedUsers = UserMapper.toDtoList(users.users);
         
-        return response.status(200).json(users);
+        return response.status(200).json({users: parsedUsers});
     }
 
     /**
@@ -67,7 +67,9 @@ export class UserController {
         const { id } = getUserByIdParamsSchema.parse(request.params);
         const user = await this.props.getUserByIdService.execute( id );
         
-        return response.status(200).json(user);
+        const parsedUser = UserMapper.toDto(user.user);
+
+        return response.status(200).json({user:parsedUser});
     }
 
     /**

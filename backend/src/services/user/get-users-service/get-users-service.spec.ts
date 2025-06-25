@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { UserRepository } from "@repositories/user-repository";
 import { GetUsersService } from "./get-users-service";
 
@@ -15,7 +14,7 @@ describe('GetUsersService', () => {
     });
 
     it('should return users with given filters', async () => {
-        const mockUsers: User[] = [
+        const mockUsers = [
             {
                 id: '1',
                 name: 'Alice',
@@ -23,7 +22,16 @@ describe('GetUsersService', () => {
                 password: 'hashed',
                 isActive: true,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                roles: [
+                    {
+                        id: 'role1',
+                        name: 'admin',
+                        description: null,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    }
+                ]
             },
             {
                 id: '2',
@@ -32,7 +40,16 @@ describe('GetUsersService', () => {
                 password: 'hashed',
                 isActive: true,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                roles: [
+                    {
+                        id: 'role2',
+                        name: 'user',
+                        description: null,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    }
+                ]
             }
         ];
 

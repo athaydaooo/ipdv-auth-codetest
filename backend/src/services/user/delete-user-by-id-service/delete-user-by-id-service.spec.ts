@@ -1,5 +1,4 @@
 import { authUserNotFound } from "@errors/auth";
-import { User } from "@prisma/client";
 import { UserRepository } from "@repositories/user-repository";
 import { DeleteUserByIdService } from "./delete-user-by-id-service";
 
@@ -18,16 +17,17 @@ describe('DeleteUserByIdService', () => {
 
     it('should delete (inactivate) user successfully', async () => {
         const userId = 'user-1';
-        const mockUser: User = {
+        const mockUser = {
             id: userId,
             name: 'Test User',
             email: 'test@example.com',
             password: 'hashedPassword',
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: []
         };
-        const updatedUser: User = { ...mockUser, isActive: false };
+        const updatedUser = { ...mockUser, isActive: false };
 
         userRepository.getUserById.mockResolvedValue(mockUser);
         userRepository.updateUser.mockResolvedValue(updatedUser);
