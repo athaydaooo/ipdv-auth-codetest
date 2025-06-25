@@ -34,6 +34,7 @@ docker-compose down
 Após configurar as variáveis de ambiente e subir os containers, é necessário popular o banco de dados com dados iniciais para que o sistema funcione corretamente. Para isso, execute o comando abaixo dentro da pasta `backend`:
 
 ```bash
+pnpm prisma migrate dev
 pnpm prisma db seed
 ```
 
