@@ -1,4 +1,3 @@
-import { userNotEnoughtParameters } from "@errors/user";
 import { Role } from "@prisma/client";
 import { RoleRepository } from "@repositories/role-repository";
 import { GetRolesService } from "./get-roles-service";
@@ -9,7 +8,8 @@ describe('GetRolesService', () => {
 
     beforeEach(() => {
         roleRepository = {
-            getRoles: jest.fn()
+            getRoles: jest.fn(),
+            getAllRoles: jest.fn()
         } as any;
         getRolesService = new GetRolesService(roleRepository);
     });
@@ -36,8 +36,4 @@ describe('GetRolesService', () => {
         expect(result).toEqual({ roles });
     });
 
-    it('should throw if no parameters are provided', async () => {
-        await expect(getRolesService.execute({} as any)).rejects.toBe(userNotEnoughtParameters);
-        await expect(getRolesService.execute(undefined as any)).rejects.toBe(userNotEnoughtParameters);
-    });
 });

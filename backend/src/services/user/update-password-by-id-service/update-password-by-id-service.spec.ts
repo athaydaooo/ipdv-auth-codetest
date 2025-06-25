@@ -1,5 +1,4 @@
 import { authUserNotFound } from "@errors/auth";
-import { User } from "@prisma/client";
 import { UserRepository } from "@repositories/user-repository";
 import { crypto } from "@utils/crypto";
 import { UpdatePasswordByIdService } from "./update-password-by-id-service";
@@ -23,16 +22,17 @@ describe('UpdatePasswordByIdService', () => {
         const userId = 'user-1';
         const plainPassword = 'newPassword';
         const hashedPassword = 'hashedPassword';
-        const mockUser: User = {
+        const mockUser = {
             id: userId,
             name: 'Test User',
             email: 'test@example.com',
             password: 'oldHashedPassword',
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: []
         };
-        const updatedUser: User = {
+        const updatedUser = {
             ...mockUser,
             password: hashedPassword,
             updatedAt: new Date()

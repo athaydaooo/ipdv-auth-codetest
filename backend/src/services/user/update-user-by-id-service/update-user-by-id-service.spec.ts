@@ -1,6 +1,6 @@
 import { authUserNotFound } from "@errors/auth";
 import { userNotEnoughtParameters } from "@errors/user";
-import { User } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 import { UserRepository } from "@repositories/user-repository";
 import { UpdateUserByIdService } from "./update-user-by-id-service";
 
@@ -19,16 +19,17 @@ describe('UpdateUserByIdService', () => {
 
     it('should update user name successfully', async () => {
         const userId = 'user-1';
-        const mockUser: User = {
+        const mockUser: User & { roles: Role[] } = {
             id: userId,
             name: 'Old Name',
             email: 'old@example.com',
             isActive: true,
             password: 'hashed',
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: []
         };
-        const updatedUser: User = {
+        const updatedUser: User & { roles: Role[] } = {
             ...mockUser,
             name: 'New Name',
             updatedAt: new Date()
@@ -46,16 +47,17 @@ describe('UpdateUserByIdService', () => {
 
     it('should update user email and isActive successfully', async () => {
         const userId = 'user-2';
-        const mockUser: User = {
+        const mockUser: User & { roles: Role[] } = {
             id: userId,
             name: 'User',
             email: 'old@example.com',
             isActive: false,
             password: 'hashed',
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: []
         };
-        const updatedUser: User = {
+        const updatedUser: User & { roles: Role[] } = {
             ...mockUser,
             email: 'new@example.com',
             isActive: true,

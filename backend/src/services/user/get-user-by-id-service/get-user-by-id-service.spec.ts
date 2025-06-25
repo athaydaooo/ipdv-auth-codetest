@@ -22,7 +22,16 @@ describe('GetUserByIdService', () => {
             password: 'hashedPassword',
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: [
+                {
+                    id: 'role1',
+                    name: 'admin',
+                    description: null,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                }
+            ]
         };
         userRepository.getUserById.mockResolvedValue(mockUser);
 

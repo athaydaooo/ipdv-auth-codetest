@@ -24,17 +24,18 @@ describe('UpdateUserRolesByIdService', () => {
         ];
         const newRolesId = ['role-2', 'role-3'];
 
-        const user: User = {
+        const user: User & { roles: Role[] } = {
             id: userId,
             name: 'Test User',
             email: 'test@example.com',
             password: 'hashed',
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: existingRoles
         };
 
-        const updatedUser: User = { ...user };
+        const updatedUser: User & { roles: Role[] } = { ...user, roles: newRolesId.map(id => ({ id, name: '', createdAt: new Date(), updatedAt: new Date(), description: null })) };
 
         userRepository.getUserById.mockResolvedValueOnce(user); // initial get
         userRepository.getRolesByUser.mockResolvedValue(existingRoles);
@@ -57,15 +58,15 @@ describe('UpdateUserRolesByIdService', () => {
             { id: 'role-1', name: 'admin', createdAt: new Date(), updatedAt: new Date(), description: null }
         ];
         const rolesId = ['role-1'];
-
-        const user: User = {
+        const user: User & { roles: Role[] } = {
             id: userId,
             name: 'Test User',
             email: 'test@example.com',
             password: 'hashed',
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles
         };
 
         userRepository.getUserById.mockResolvedValueOnce(user);
@@ -75,6 +76,7 @@ describe('UpdateUserRolesByIdService', () => {
         await expect(updateUserRolesByIdService.execute(userId, rolesId)).resolves.toEqual({user});
 
         expect(userRepository.linkRole).not.toHaveBeenCalled();
+        expect(userRepository.unlinkRole).not.toHaveBeenCalled();
         expect(userRepository.unlinkRole).not.toHaveBeenCalled();
     });
 
@@ -88,23 +90,24 @@ describe('UpdateUserRolesByIdService', () => {
     it('should throw error if user not found after update', async () => {
         const userId = 'user-3';
         const roles: Role[] = [];
-        const rolesId: string[] = [];
-
-        const user: User = {
+        const user: User & { roles: Role[] } = {
             id: userId,
             name: 'Test User',
             email: 'test@example.com',
             password: 'hashed',
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles
         };
 
         userRepository.getUserById.mockResolvedValueOnce(user);
         userRepository.getRolesByUser.mockResolvedValue(roles);
         userRepository.getUserById.mockResolvedValueOnce(null);
 
-        await expect(updateUserRolesByIdService.execute(userId, rolesId))
+        await expect(updateUserRolesByIdService.execute(userId, roles.map(r => r.id)))
+            .rejects.toBe(authUserNotFound);
+        await expect(updateUserRolesByIdService.execute(userId, roles.map(r => r.id)))
             .rejects.toBe(authUserNotFound);
     });
 });

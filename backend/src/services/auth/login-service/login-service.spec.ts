@@ -31,6 +31,11 @@ describe('LoginService', () => {
 
         const inputPassword = 'plainPassword';
         const encryptedPassword = 'hashedPassword';
+        const userRoles = [
+            { id: 'role1', name: 'admin', description: null, createdAt: new Date(), updatedAt: new Date() },
+            { id: 'role2', name: 'user', description: null, createdAt: new Date(), updatedAt: new Date() }
+        ] as Role[];
+
         const mockUser = {
             id: '1',
             name: 'Test User',
@@ -38,13 +43,9 @@ describe('LoginService', () => {
             password: encryptedPassword,
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: userRoles
         };
-
-        const userRoles = [
-            { id: 'role1', name: 'admin' },
-            { id: 'role2', name: 'user' }
-        ] as Role[]
 
         const session: Session = {
             id: 'session-id',
@@ -89,7 +90,8 @@ describe('LoginService', () => {
             password: crypto.encrypt({ data: 'decryptedPassword' }),
             isActive: true,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            roles: []
         };
         userRepository.getUserByEmail.mockResolvedValue(mockUser);
         crypto.decrypt = jest.fn().mockReturnValue('decryptedPassword');
